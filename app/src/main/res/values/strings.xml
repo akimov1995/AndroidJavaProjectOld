@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Тестовое задание</string>
+    <string-array name="news">
+        <item>Все новости:Лента новостей</item>
+        <item>Автомобили:Тест-драйвы</item>
+        <item>Автомобили:Лента новостей</item>
+        <item>Спорт:Главные</item>
+    </string-array>
+    <string name="base_url">https://www.rbc.ru/</string>
+    <string name="test_drive_url">https://www.autonews.ru/tags/?tag=%D0%A2%D0%B5%D1%81%D1%82-%D0%B4%D1%80%D0%B0%D0%B9%D0%B2%D1%8B</string>
+    <string name="auto_news_url">https://www.autonews.ru/</string>
+    <string name="sport_news_url">https://sport.rbc.ru/</string>
+    <string name="news_activity_title">Новости</string>
+    <string name="settings_activity_title">Настройки</string>
+    <string name="webview_activity_title">Выбранная новость</string>
+    <string name="def">Все новости:Лента новостей</string>
+</resources>

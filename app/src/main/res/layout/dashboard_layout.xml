@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    >
+
+
+<com.example.task.ui.custom.DashboardLayout
+android:layout_width="fill_parent"
+android:layout_height="fill_parent">
+
+    <Button android:id="@+id/news_button"
+        style="@style/DashboardButton"
+        android:text="Список новостей"
+        android:drawableTop="@drawable/news" />
+
+<Button android:id="@+id/settings_button"
+    style="@style/DashboardButton"
+    android:text="Настройки"
+    android:drawableTop="@drawable/ic_settings" />
+
+
+
+</com.example.task.ui.custom.DashboardLayout>
+
+
+    </LinearLayout>
