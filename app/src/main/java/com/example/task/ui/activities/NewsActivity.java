@@ -13,11 +13,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import com.example.task.model.News;
 import com.example.task.services.DownloadNewsService;
 import com.example.task.R;
 import com.example.task.utils.NetworkStatusChecker;
 import com.example.task.db.RealmManager;
+
 import java.util.ArrayList;
 
 public class NewsActivity extends AppCompatActivity {
@@ -25,7 +27,7 @@ public class NewsActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<News> newsList;
     private RealmManager realmManager;
-    private ListView lv;
+    private ListView listView;
     private SharedPreferences sharedPreferences;
     private int period;
     private final int minutePeriod = 60000;
@@ -48,14 +50,14 @@ public class NewsActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
-                lv.invalidateViews();
+                refreshNews();
+                listView.invalidateViews();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        lv = (ListView) findViewById(R.id.listView);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
@@ -91,11 +93,11 @@ public class NewsActivity extends AppCompatActivity {
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(newsReceiver, intentFilter);
 
-        getNewsSingle();
+        loadNews();
         DownloadNewsService.setServiceAlarm(NewsActivity.this, true, minutePeriod * period, newsType);
     }
 
-    public void getNewsSingle() {
+    private void loadNews() {
         Intent intentService = new Intent(NewsActivity.this, DownloadNewsService.class);
         intentService.putExtra("type", newsType);
         startService(intentService);
@@ -113,7 +115,7 @@ public class NewsActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(NewsActivity.this,
                         android.R.layout.simple_list_item_1, titleList);
-                lv.setAdapter(adapter);
+                listView.setAdapter(adapter);
 
                 realmManager.clearAllNews();
                 realmManager.saveNews(newsList);
@@ -123,15 +125,15 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
 
-    public void updateSettings() {
-        getNewsSingle();
+    private void updateSettings() {
+        loadNews();
         DownloadNewsService.setServiceAlarm(NewsActivity.this, false, minutePeriod * period, newsType);
         DownloadNewsService.setServiceAlarm(NewsActivity.this, true, minutePeriod * period, newsType);
     }
 
-    public void loadData() {
+    private void refreshNews() {
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
-            getNewsSingle();
+            loadNews();
         } else {
             newsList = realmManager.getNews();
             ArrayList<String> titleList = new ArrayList<>();
@@ -140,7 +142,7 @@ public class NewsActivity extends AppCompatActivity {
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(NewsActivity.this,
                     android.R.layout.simple_list_item_1, titleList);
-            lv.setAdapter(adapter);
+            listView.setAdapter(adapter);
         }
     }
 
